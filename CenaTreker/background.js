@@ -4,12 +4,12 @@
 // Called when the user clicks on the browser action.
 
 
-/*
-chrome.browserAction.onClicked.addListener(function(tab) {
-  // No tabs or host permissions needed!
-  console.log('Turning ' + tab.url + ' red!');
-  chrome.tabs.executeScript({
-    code: 'var myElement = document.getElementById("priceblock_ourprice").innerHTML; console.log(myElement);'
-  });
+window.data = {};
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+      window.data[sender.url] = request.data;  //upisuje podatak u backend ekstenzije
+      console.log("upisano u backend")
+      console.log(sender.url);
+      console.log(request.data);
 });
-*/

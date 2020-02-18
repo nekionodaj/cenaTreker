@@ -2,9 +2,16 @@
   "name": "CenaTreker",
   "description": "Trekuje vase cene",
   "version": "2.0",
+  "options_page": "options.html",
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js", "content2.js"]
+}],
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "http://*/*", "http://*/*", "https://*/*",
+    "*://*/*"
   ],
   "background": {
     "scripts": ["background.js"],

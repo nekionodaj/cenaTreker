@@ -3,8 +3,11 @@
 //})
 var price = {};
 
+
 var myElement = document.getElementById("priceblock_ourprice").innerHTML;
 console.log(myElement);
- price[document.url] = myElement;
+price[document.url] = myElement;
 console.log(price[document.url]);
-console.log(window.location.href)
+console.log(window.location.href);
+
+chrome.runtime.sendMessage({data : price[document.url]}, function(response){});
