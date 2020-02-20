@@ -5,13 +5,15 @@
   "options_page": "options.html",
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["content.js", "content2.js"]
+    "js": ["content2.js"]
 }],
   "permissions": [
     "activeTab",
     "tabs",
     "http://*/*", "http://*/*", "https://*/*",
-    "*://*/*"
+    "*://*/*",
+    "storage",
+    "notifications"
   ],
   "background": {
     "scripts": ["background.js"],

@@ -2,12 +2,13 @@
 const bg = chrome.extension.getBackgroundPage();
 
 function printPrice(tab) {
+  bg.getPrices();
   Object.keys(bg.data).forEach(function (url) {
     const div = document.createElement('div')
-    div.textContent = '${url}: ${data[url]}';
+    div.textContent = url.slice(25, 70) + " : " + bg.data[url];
+    console.log("printam");
     console.log(url);
-    console.log(bg.data[url]);
-     console.log("printam");
+    document.body.appendChild(div);
   })
 
   }
