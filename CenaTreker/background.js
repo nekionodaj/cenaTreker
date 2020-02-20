@@ -7,6 +7,8 @@ window.data = {};   //backend struktura podataka, njoj se pristupa sa bg (varija
                     //const bg = chrome.extension.getBackgroundPage();
                     //i onda bg.data za pristupit strukturi podataka
 
+
+//slusa Add Price gumb, upise dobivene parametre u window.data i njega sprema u storage
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       window.data[sender.url] = request.data;  //upisuje podatak u backend ekstenzije
@@ -16,24 +18,21 @@ chrome.runtime.onMessage.addListener(
       chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("sejvano u storage"); });
 });
 
+//uzme objekt data i njegov kljuc data i iterira po svakom kljucu(url-u) unutar objekta i sprema ga u window.data
 function getPrices(){
   chrome.storage.sync.get(["data"], function(data) {
     console.log(data);
     console.log(data.data);
-    // check if data exists.
-    if (1){
-        console.log("ima cijena")
-        //window.data = data;
-        Object.keys(data.data).forEach(function (url) {
-
-            console.log(url);
-            console.log(data.data[url]);
-            window.data[url] = data.data[url];
-        });
-    } else{
-        chrome.storage.sync.set({"data" : window.data}, function(){ console.log("sejvano u storage"); });
-    } });
+    console.log("ima cijena")
+    Object.keys(data.data).forEach(function (url) {
+          console.log(url);
+          console.log(data.data[url]);
+          window.data[url] = data.data[url];
+          });
+    });
 }
 
+
+//ovo se izvrsava paljenjem browsera
 getPrices();
 console.log("Getam Prices");
