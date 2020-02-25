@@ -2,7 +2,7 @@
 var price = {};
 
 
-//funkcija gleda za dobiveni parametar postoji li on u databazi(slanjem poruke u backend) i na temelju odgovora mijenja boju cijene i ispisuje tekst
+//funkcija gleda za dobiveni parametar postoji li on u databazi(slanjem poruke u backend) i na temelju odgovora mijenja boju cijene i ispisuje tekst u konzolu
 function checkPrices(priceblock) {
   if (document.getElementById(priceblock) != null) {
       var myElement = document.getElementById(priceblock).innerHTML;

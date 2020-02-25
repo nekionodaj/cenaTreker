@@ -13,7 +13,7 @@ function pricesPage(tab) {
 
 function comparePrice(tab) {
   chrome.tabs.executeScript({
-          file: 'content3.js'
+          file: 'content2.js'
   })
 }
 
