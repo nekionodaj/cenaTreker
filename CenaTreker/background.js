@@ -13,30 +13,36 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "addPrice"){
         if (!window.data[sender.url]){
-          window.data[sender.url] = request.data;  //upisuje podatak u backend ekstenzije
+          var formattedData = request.data.replace("&nbsp;", ""); //formatira cijene u kojima se razmak hardcodea sa &nbsp;
+          window.data[sender.url] = formattedData;  //upisuje podatak u backend ekstenzije
           console.log("upisano u backend")
           console.log(sender.url);
-          console.log(request.data);
+          console.log(request.data); //prije formatiranja
+          console.log(formattedData); //nakon formatiranja
           chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("sejvano u storage"); });
         }
       };
 });
 
-//ceka poziv iz content2, usporeduje i salje odgovor
+//ceka poziv iz content2, formatira , u . (ovisi od stranice do stranice ali treba biti tocka za usporedivanje), usporeduje i salje odgovor
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "seePrice"){
           if (window.data[sender.url]){
-            if (window.data[sender.url] == request.data) {
+            var novaData = parseFloat(request.data.replace(',', '.'));
+            var staraData = parseFloat(window.data[sender.url].replace(',', '.'))
+            if (novaData == staraData) {
               console.log("cijena se nije promijenila");
               sendResponse("=");
             }
-            else if(window.data[sender.url] < request.data) {
+            else if(novaData > staraData) {
               console.log("cijena je veca nego prije");
+              window.data[sender.url] = request.data
               sendresponse("veca");
             }
-            else if(window.data[sender.url] > request.data) {
+            else if(novaData < staraData) {
               console.log("cijena je manja nego prije");
+              window.data[sender.url] = request.data
               sendresponse("manja");
             }
 
@@ -47,10 +53,10 @@ chrome.runtime.onMessage.addListener(
 //uzme objekt data i njegov kljuc data i iterira po svakom kljucu(url-u) unutar objekta i sprema ga u window.data
 function getPrices(){
   chrome.storage.sync.get(["data"], function(data) {
-    console.log(data);
-    console.log(data.data);
-    console.log("ima cijena")
-    Object.keys(data.data).forEach(function (url) {
+      console.log(data);
+      console.log(data.data);
+      console.log("ima cijena")
+      Object.keys(data.data).forEach(function (url) {
           console.log(url);
           console.log(data.data[url]);
           window.data[url] = data.data[url];
