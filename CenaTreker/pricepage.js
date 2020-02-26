@@ -1,7 +1,7 @@
 
-var bg = chrome.extension.getBackgroundPage();
 
-function printPrice(tab) {
+function printPrice(tab) {  
+  var bg = chrome.extension.getBackgroundPage();
   bg.getPrices();
   Object.keys(bg.data).forEach(function (url) {
     const div = document.createElement('div')

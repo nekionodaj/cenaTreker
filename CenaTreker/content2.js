@@ -10,17 +10,20 @@ function checkPrices(priceblock) {
         if (response == "=") {
           console.log("jednako je")
           document.getElementById(priceblock).classList.remove("a-color-price");
-          document.getElementById(priceblock).style.color = "#d6d027";
+          //document.getElementById(priceblock).style.color = "#d6d027";
+          document.getElementById(priceblock).classList.add("badge-primary", "badge");
         }
         else if (response == "veca") {
           console.log("cijena je veca nego prije");
           document.getElementById(priceblock).classList.remove("a-color-price");
-          document.getElementById(priceblock).style.color = "#e60e27";
+          //document.getElementById(priceblock).style.color = "#e60e27";
+          document.getElementById(priceblock).classList.add("badge-danger", "badge");
         }
         else if (response == "manja") {
           console.log("cijena je manja nego prije");
           document.getElementById(priceblock).classList.remove("a-color-price");
-          document.getElementById(priceblock).style.color = "#09e811";
+          //document.getElementById(priceblock).style.color = "#09e811";
+          document.getElementById(priceblock).classList.add("badge-success", "badge");
         }
       });
     }
