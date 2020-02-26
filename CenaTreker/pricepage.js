@@ -1,5 +1,5 @@
 
-const bg = chrome.extension.getBackgroundPage();
+var bg = chrome.extension.getBackgroundPage();
 
 function printPrice(tab) {
   bg.getPrices();

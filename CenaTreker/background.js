@@ -26,14 +26,19 @@ chrome.runtime.onMessage.addListener(
       };
 });
 
-//ceka poziv iz content2, formatira , u . (ovisi od stranice do stranice ali treba biti tocka za usporedivanje), usporeduje i salje odgovor
+//ceka poziv iz content2, formatira ","" u "." (ovisi od stranice do stranice ali treba biti tocka za usporedivanje), usporeduje i salje odgovor
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "seePrice"){
           var formattedURL = formatAmazonURL(sender.url);
+          console.log(formattedURL)
           if (window.data[formattedURL]){
-            var novaData = parseFloat(request.data.replace(',', '.'));
-            var staraData = parseFloat(window.data[formattedURL].replace(',', '.'))
+            var novaData = parseFloat(request.data.replace( /^\D+/g, '').replace(',', '.'));
+            console.log(request.data)
+            console.log(novaData)
+            var staraData = parseFloat(window.data[formattedURL].replace( /^\D+/g, '').replace(',', '.'))
+            console.log(window.data[formattedURL])
+            console.log(staraData)
             if (novaData == staraData) {
               console.log("cijena se nije promijenila");
               sendResponse("=");
@@ -48,6 +53,7 @@ chrome.runtime.onMessage.addListener(
               window.data[formattedURL] = request.data
               sendResponse("manja");
             }
+            else console.log("nema cijene")
 
           }
       };
