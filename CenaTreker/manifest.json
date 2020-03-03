@@ -2,7 +2,6 @@
   "name": "CenaTreker",
   "description": "Trekuje vase cene",
   "version": "2.0",
-  "options_page": "options.html",
   "content_scripts": [{
     "matches": ["https://www.amazon.com/*/*", "https://www.amazon.co.uk/*/*", "https://www.amazon.de/*/*" ],
     "css": ["css/bootstrap.min.css"],

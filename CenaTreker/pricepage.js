@@ -27,9 +27,9 @@ function printPrice(tab) {
 
 function makni(url) {
   console.log("makni");
-  console.log(url)
-  console.log(bg.data[url]);
-  chrome.runtime.sendMessage({data : url, kljuc : "brisanje"}, function(response){console.log("obrisano")}); //salje poruku backgroundu
+  var link = url
+  console.log(link)
+  chrome.runtime.sendMessage({data : link, kljuc : "brisanje"}, function(response){console.log("obrisano")}); //salje poruku backgroundu
 }
 
 function Currency(bgCijena) {
