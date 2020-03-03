@@ -65,12 +65,12 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log("prije brisanja")
       if (request.kljuc == "brisanje"){
-        console.log("brisanje " + window.data);
+        console.log("brisanje " + window.data[request.data]);
         //delete window.data[request.data];
         //chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("promjene sejvane u storage"); });
         sendResponse();
       }
-  }
+  });
 
 //uzme objekt data i njegov kljuc data i iterira po svakom kljucu(url-u) unutar objekta i sprema ga u window.data
 function getPrices(){
