@@ -14,13 +14,15 @@ chrome.runtime.onMessage.addListener(
       if (request.kljuc == "addPrice"){
         var formattedURL = formatAmazonURL(sender.url);
         if (!window.data[formattedURL]){
-          var formattedData = request.data.replace("&nbsp;", ""); //formatira cijene u kojima se razmak hardcodea sa &nbsp;
-          window.data[formattedURL] = formattedData;  //upisuje podatak u backend ekstenzije
+          var formattedData = request.data[0].replace("&nbsp;", ""); //formatira cijene u kojima se razmak hardcodea sa &nbsp;
+          window.data[formattedURL] = [formattedData, request.data[1]];  //upisuje podatak u backend ekstenzije
           console.log("upisano u backend")
+
           console.log(sender.url); //prije formatiranja
           console.log(formattedURL); //nakon formatiranja
-          console.log(request.data); //prije formatiranja
+          console.log(request.data[0]); //prije formatiranja
           console.log(formattedData); //nakon formatiranja
+          console.log(request.data[1]);
           chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("sejvano u storage"); });
         } else console.log("podatak vec postoji")
       };
@@ -36,8 +38,8 @@ chrome.runtime.onMessage.addListener(
             var novaData = parseFloat(request.data.replace( /^\D+/g, '').replace(',', '.'));
             console.log(request.data)
             console.log(novaData)
-            var staraData = parseFloat(window.data[formattedURL].replace( /^\D+/g, '').replace(',', '.'))
-            console.log(window.data[formattedURL])
+            var staraData = parseFloat(window.data[formattedURL][0].replace( /^\D+/g, '').replace(',', '.'))
+            console.log(window.data[formattedURL][0])
             console.log(staraData)
             if (novaData == staraData) {
               console.log("cijena se nije promijenila");
@@ -45,12 +47,12 @@ chrome.runtime.onMessage.addListener(
             }
             else if(novaData > staraData) {
               console.log("cijena je veca nego prije");
-              window.data[formattedURL] = request.data
+              window.data[formattedURL][0] = request.data
               sendResponse("veca");
             }
             else if(novaData < staraData) {
               console.log("cijena je manja nego prije");
-              window.data[formattedURL] = request.data
+              window.data[formattedURL][0] = request.data
               sendResponse("manja");
             }
             else console.log("nema cijene")
@@ -58,6 +60,17 @@ chrome.runtime.onMessage.addListener(
           }
       };
 });
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log("prije brisanja")
+      if (request.kljuc == "brisanje"){
+        console.log("brisanje " + window.data);
+        //delete window.data[request.data];
+        //chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("promjene sejvane u storage"); });
+        sendResponse();
+      }
+  }
 
 //uzme objekt data i njegov kljuc data i iterira po svakom kljucu(url-u) unutar objekta i sprema ga u window.data
 function getPrices(){
@@ -69,8 +82,12 @@ function getPrices(){
         console.log("ima cijena")
         Object.keys(data.data).forEach(function (url) {
             console.log(url);
-            console.log(data.data[url]);
-            window.data[url] = data.data[url];
+            console.log(data.data[url][0]);
+            console.log(data.data[url][1]);
+            window.data[url] = [data.data[url][0], data.data[url][1]];
+          //  window.data[url][0] = data.data[url][0];
+          //  window.data[url][1] = data.data[url][1];
+
         });
       }
     });
