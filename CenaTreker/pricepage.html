@@ -4,47 +4,57 @@
   <title>Price Page</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .artikli {
-      margin: 10px;
-    }
+  #zutiGumb{
+    height: 100%;
+  }
 
-    .jumbokesa {
-      margin-top: 32px;
-    }
+  #artikl {
+    height: fit-content;
+  }
+  .artikli {
+    margin: 10px;
+  }
 
-    #popis {
-      padding-left: 6px;
-      padding-right: 26;
-    }
+  .jumbokesa {
+    margin-top: 32px;
+    opacity: 0.6;
+  }
+
+  #popis {
+    padding-left: 6px;
+    padding-right: 26;
+  }
+
+
   </style>
 </head>
 
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-10">
-        <section class="jumbotron text-center jumbokesa">
-          <div class="container">
-            <h1 class="jumbotron-heading">Popis cena</h1>
-            <hr class="my-3">
-            <p class="lead text-muted">Ovaj popis sadrzhi sve cene.</p>
-            <p>
-              <button id='printPrice' class="btn btn-info">Print Price</button>
-              <a href="#" class="btn btn-outline-secondary ">gumb koji ne dela nikaj</a>
-            </p>
-          </div>
-        </section>
-      </div>
-    </div>
-    <div class="row">
-      <div id="popis" class="col-sm-10">
-      </div>
+<body style="background-image: url('images/pozadinaNova.jpg'); background-position: top;background-repeat: repeat-y;background-size: cover;">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-10">
+      <section class="jumbotron text-center jumbokesa"  style="background-color : #DBDBDB">
+        <div class="container">
+          <h1 class="font-weight-bold" style="color:white;">Popis cena</h1>
+          <hr class="my-3">
+          <p class="font-weight-bold" style="color: white;">Ovaj popis sadrzhi sve cene.</p>
+          <p>
+            <button id='printPrice' class="btn btn-info">Print Price</button>
+            <a href="#" class="btn btn-outline-secondary ">gumb koji ne dela nikaj</a>
+          </p>
+        </div>
+      </section>
     </div>
   </div>
+  <div class="row">
+    <div id="popis" class="col-sm-10">
+    </div>
+  </div>
+</div>
 
-  <script src="pricepage.js"></script>
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
+<script src="pricepage.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

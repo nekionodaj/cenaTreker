@@ -13,12 +13,12 @@ function printPrice(tab) {
     h.insertAdjacentHTML("afterbegin", `
     <div id=` + url +  ` class="input-group artikli">
    <div class="input-group-append">
-       <span id="valuta" class="input-group-text"></span>
-       <span id="cijena" class="input-group-text"></span>
+       <span id="valuta" class="input-group-text" style="background-color : #DBDBDB"></span>
+       <span id="cijena" class="input-group-text" style="background-color : #DBDBDB"></span>
      </div>
    <span id="artikl" type="text" class="form-control"></span>
      <div class="input-group-append">
-       <a href='#' target="_blank" id="gumbLink"><button class="btn btn-outline-warning" type="button">Visit</button></a>
+       <a href='#' target="_blank" id="gumbLink"><button id='zutiGumb' class="btn btn-info"  type="button">Visit</button></a>
        <button id="makni" class="btn btn-outline-danger" type="button">Remove</button>
      </div></div>`);
     document.getElementById('gumbLink').href = url;

@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(
         var formattedURL = formatAmazonURL(sender.url);
         if (!window.data[formattedURL]){ //ako vec ne postoji podatak za taj url
           var formattedData = request.data[0].replace("&nbsp;", ""); //formatira cijene u kojima se razmak hardcodea sa &nbsp;
-          window.data[formattedURL] = [formattedData, request.data[1]];  //upisuje podatak u backend ekstenzije
+          window.data[formattedURL] = [formattedData, request.data[1].replace("&amp;", "&")];  //upisuje podatak u backend ekstenzije
           chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("sejvano u storage"); });
         } else console.log("podatak vec postoji")
       };
