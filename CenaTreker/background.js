@@ -1,10 +1,5 @@
-// Copyright (c) 2011 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-
-window.data = {};   //backend struktura podataka, njoj se pristupa sa bg (varijablom background)
-                    //const bg = chrome.extension.getBackgroundPage();
+window.data = {};   //backend struktura podataka, njoj se pristupa sa bg (varijablom background) u koju pohranimo window.data
+                    //chrome.runtime.getBackgroundPage(function(bekgraund){bekgraund.getPrices(); bg = bekgraund.data});;
                     //i onda bg.data za pristupit strukturi podataka
 
 
@@ -13,16 +8,9 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "addPrice"){
         var formattedURL = formatAmazonURL(sender.url);
-        if (!window.data[formattedURL]){
+        if (!window.data[formattedURL]){ //ako vec ne postoji podatak za taj url
           var formattedData = request.data[0].replace("&nbsp;", ""); //formatira cijene u kojima se razmak hardcodea sa &nbsp;
           window.data[formattedURL] = [formattedData, request.data[1]];  //upisuje podatak u backend ekstenzije
-          console.log("upisano u backend")
-
-          console.log(sender.url); //prije formatiranja
-          console.log(formattedURL); //nakon formatiranja
-          console.log(request.data[0]); //prije formatiranja
-          console.log(formattedData); //nakon formatiranja
-          console.log(request.data[1]);
           chrome.storage.sync.set({["data"] : window.data}, function(){ console.log("sejvano u storage"); });
         } else console.log("podatak vec postoji")
       };
@@ -33,14 +21,9 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "seePrice"){
           var formattedURL = formatAmazonURL(sender.url);
-          console.log(formattedURL)
-          if (window.data[formattedURL]){
-            var novaData = parseFloat(request.data.replace( /^\D+/g, '').replace(',', '.'));
-            console.log(request.data)
-            console.log(novaData)
-            var staraData = parseFloat(window.data[formattedURL][0].replace( /^\D+/g, '').replace(',', '.'))
-            console.log(window.data[formattedURL][0])
-            console.log(staraData)
+          if (window.data[formattedURL]){ //ako postoji podatak za taj url
+            var novaData = formatPrice(request.data); //formatiraj novu cijenu koju dobivamo iz content2
+            var staraData = formatPrice(window.data[formattedURL][0]); //formatiraj staru cijenu iz window.data
             if (novaData == staraData) {
               console.log("cijena se nije promijenila");
               sendResponse("=");
@@ -56,11 +39,11 @@ chrome.runtime.onMessage.addListener(
               sendResponse("manja");
             }
             else console.log("nema cijene")
-
           }
       };
 });
 
+//ceka poruku iz pricepage(kad se klikne gumb remove) i mice clan objekta od URLa na koji je kliknut remove
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.kljuc == "brisanje"){
@@ -75,20 +58,14 @@ chrome.runtime.onMessage.addListener(
 function getPrices(){
   chrome.storage.sync.get(["data"], function(data) {
       if (data.data){
-        console.log("Getam Prices");
-        console.log(data);
-        console.log(data.data);
-        console.log("ima cijena")
+        console.log("ima cijena i getam ih")
         Object.keys(data.data).forEach(function (url) {
             console.log(url);
             console.log(data.data[url][0]);
             console.log(data.data[url][1]);
             window.data[url] = [data.data[url][0], data.data[url][1]];
-          //  window.data[url][0] = data.data[url][0];
-          //  window.data[url][1] = data.data[url][1];
-
         });
-      }
+      } else console.log("nema cijena");
     });
 }
 
@@ -96,6 +73,10 @@ function formatAmazonURL(url) {
     var indexdp = url.search("/dp/") + 14
     var formattedURL = url.slice(0, indexdp);
     return formattedURL
+}
+
+function formatPrice(price) {
+  return parseFloat(price.replace( /^\D+/g, '').replace(',', '.'));
 }
 
 
