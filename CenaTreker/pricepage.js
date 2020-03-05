@@ -23,7 +23,7 @@ function printPrice(tab) {
      </div></div>`);
     document.getElementById('gumbLink').href = url;
     document.getElementById('valuta').textContent = Currency(bg[url][0]);
-    document.getElementById('cijena').textContent = bg[url][0];
+    document.getElementById('cijena').textContent = makniCurrency(bg[url][0]);
     document.getElementById('artikl').textContent = bg[url][1];
     document.getElementById('makni').onclick = makni.bind(null, url);
   })
@@ -44,5 +44,15 @@ function Currency(bgCijena) {
   } else
     //dolar i funta
     var currency = bgCijena.charAt(0);
+  return currency;
+}
+
+function makniCurrency(bgCijena) {
+  if (bgCijena.slice(-1) == "\u20ac") {
+    //juro
+    var currency = bgCijena.substring(0, bgCijena.length - 1);
+  } else
+    //dolar i funta
+    var currency = bgCijena.substring(1);
   return currency;
 }
