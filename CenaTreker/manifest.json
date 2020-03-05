@@ -1,11 +1,11 @@
 {
-  "name": "CenaTreker",
-  "description": "Trekuje vase cene",
+  "name": "CT Amazon Price Tracker",
+  "description": "Amazon shopping list",
   "version": "2.0",
   "content_scripts": [{
     "matches": ["https://www.amazon.com/*/*", "https://www.amazon.co.uk/*/*", "https://www.amazon.de/*/*" ],
     "css": ["css/bootstrap.min.css"],
-    "js": ["content2.js", "js/bootstrap.min.js"]
+    "js": ["content2.js", "js/jquery-3.4.1.min.js", "js/bootstrap.bundle.min.js"]
 }],
   "permissions": [
     "activeTab",
@@ -17,11 +17,17 @@
   ],
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   "browser_action": {
-    "default_title": "Trekuj Cenu",
-    "default_popup": "popup.html"
+    "default_title": "CT Amazon Price Tracker",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128" : "images/logogumb.png"
+    }
+  },
+  "icons":{
+    "128": "images/logo.png"
   },
   "manifest_version": 2
 }
